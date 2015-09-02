@@ -44,6 +44,15 @@ ADD nginx.conf /etc/nginx/nginx.conf
 ADD admin.htpasswd /etc/nginx/conf.d/admin.htpasswd
 ADD etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
 
+# Curator for Elastic search index
+RUN apt-get install -y python-pip
+RUN pip install elasticsearch-curator==3.2.3
+
+ENV INTERVAL_IN_HOURS=24
+ENV OLDER_THAN_IN_DAYS="5"
+
+CMD while true; do curator --host elasticsearch delete indices --older-than $OLDER_THAN_IN_DAYS --time-unit=days --timestring '%Y.%m.%d'; sleep $(( 60*60*INTERVAL_IN_HOURS )); done
+
 EXPOSE 80
 
 ENV PATH /opt/logstash/bin:$PATH
