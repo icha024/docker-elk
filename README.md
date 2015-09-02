@@ -113,6 +113,10 @@ input {
 }
 ```
 
+Change Nginx password 
+---------
+Create and replace the default password file (eg. htpasswd -c admin.htpasswd youUserName)
+Default username/password is: admin/password1
 
 Extend It
 ---------
