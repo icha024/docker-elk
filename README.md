@@ -1,6 +1,29 @@
 Elasticsearch. Logstash. Kibana.
 ================================
 
+Changes
+---------
+This branched the ELK Docker image config with the following changes:
+* Added Nginx with password protection
+* Added Elastic search curator
+
+Change Nginx password
+---------
+Create and replace the default password file (eg. htpasswd -c admin.htpasswd youUserName)
+Default username/password is: admin/password1
+
+Override the default password at /etc/config/admin.htpasswd by mounting the volume through Docker.
+```
+-v /path/to/your/nginx/password:/etc/nginx/conf.d/
+```
+
+Elastic search curator
+---------
+Default to trim any index older than 5 days.
+
+
+From Original ELK Branch
+---------
 Creating an ELK stack could not be easier.
 
 **Important:** this image embeds Kibana 4.1.0.
@@ -112,12 +135,6 @@ input {
   }
 }
 ```
-
-Change Nginx password 
----------
-Create and replace the default password file (eg. htpasswd -c admin.htpasswd youUserName)
-Default username/password is: admin/password1
-
 Extend It
 ---------
 

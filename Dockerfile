@@ -26,6 +26,7 @@ RUN apt-get install --no-install-recommends -y logstash && \
     apt-get clean
 
 ADD etc/supervisor/conf.d/logstash.conf /etc/supervisor/conf.d/logstash.conf
+ADD config/logstash.conf /etc/logstash/
 
 # Logstash plugins
 RUN /opt/logstash/bin/plugin install logstash-filter-translate
@@ -40,8 +41,8 @@ ADD etc/supervisor/conf.d/kibana.conf /etc/supervisor/conf.d/kibana.conf
 
 # Nginx
 RUN apt-get install -y nginx
-ADD nginx.conf /etc/nginx/nginx.conf
-ADD admin.htpasswd /etc/nginx/conf.d/admin.htpasswd
+ADD config/nginx.conf /etc/nginx/nginx.conf
+ADD config/admin.htpasswd /etc/nginx/conf.d/admin.htpasswd
 ADD etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
 
 # Curator for Elastic search index
@@ -58,4 +59,3 @@ EXPOSE 80
 ENV PATH /opt/logstash/bin:$PATH
 
 CMD [ "/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf" ]
-
